@@ -8,9 +8,14 @@ export function getUser(user) {
         payload: user,
     }
 }
-export function getLogin(login) {
+export function postLogin(login) {
     return {
-        type: type.GET_LOGIN,
+        type: type.LOGIN_USER,
         payload: login,
+    }
+}
+export function logoutUser(){
+    return {
+         type: type.LOGOUT
     }
 }

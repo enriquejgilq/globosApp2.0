@@ -3,47 +3,43 @@ import { call, put, takeEvery, select } from "redux-saga/effects";
 import axios from "axios";
 import Api from "../Api";
 import {
-    GET_LOGIN, GET_LOGIN_ERROR, GET_LOGIN_SUCCESS
+    LOGIN_USER,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_ERROR,
 } from '../constants/user';
 
 function postLogin(action) {
     return axios({
         method: "POST",
-        url: `${Api}/auth`,
+        url: `${Api}/auth/login`,
         headers: {
-            "Content-type": "application/json",
-            Accept: "application/json",
+            'Content-type': "application/json",
+             Accept: "application/json",
             "Access-Control-Allow-Origin": "*",
-        },
-        data: JSON.stringify(action.payload),
-    })
-        .then((response) => {
-            return response.data;
-        })
-        .catch((error) => {
-            throw error.response?.data;
-            consoe
-        });
-}
+          },
+    data: JSON.stringify(action),
+  })
+    .then((response) => response.data)
+    .catch(error => {
+      throw error.response?.data
+    });
+};
+
 
 function* fetchLogin(action) {
     try {
         const login = yield call(postLogin, action.payload);
-        if (login.type_user) {
-            yield put({ type: GET_LOGIN_SUCCESS, login: login });
-        } else {
-            yield put({ type: GET_LOGIN_ERROR, message: "Error" });
-        }
-    } catch (e) {
-        
-        yield put({
-            type: GET_LOGIN_ERROR,
-            message: e ? String(e.message) : "Error de conexión",
-        });
+        console.log(login)
+        yield put({ type: LOGIN_USER_SUCCESS, user: login});
+      } catch (e) {
+        console.log(e.msg)
+
+        yield put({ type: LOGIN_USER_ERROR, message: e.msg});
+      }
     }
-}
+    
 function* rootUserSaga() {
-    yield takeEvery(GET_LOGIN, fetchLogin);
+    yield takeEvery(LOGIN_USER, fetchLogin);
 }
 
 export default rootUserSaga;

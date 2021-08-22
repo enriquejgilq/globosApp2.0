@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate,Outlet } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
@@ -15,32 +15,38 @@ import Category from './pages/Category';
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
-  return useRoutes([
+const routes = (isLoggedIn) => [
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
-        { path: 'category', element: <Category /> },
+        { path: '/app', element: <DashboardApp /> },
+        { path: '/user', element: <User /> },
+        { path: '/products', element: <Products /> },
+        { path: '/blog', element: <Blog /> },
+        { path: '/category', element: <Category /> },
+        { path: '/404', element: <NotFound /> },
+        { path: '*', element: <Navigate to="/dashboard/404" /> },
+        { path: '/', element: <Navigate to="/dashboard/app" replace  /> },
+
+      
       ]
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard/app" />,
+//  element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
-        { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '/404', element: <NotFound /> },
+        { path: '/', element: <Navigate to="/login" /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
 
     { path: '*', element: <Navigate to="/404" replace /> }
-  ]);
-}
+  ];
+
+  export default routes;
+  

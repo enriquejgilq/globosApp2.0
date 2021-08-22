@@ -1,4 +1,9 @@
+/* eslint-disable */
+
 export const GET_USERS = 'GET_USERS';
-export const GET_LOGIN = 'GET_LOGIN';
-export const GET_LOGIN_SUCCESS = 'GET_LOGIN_SUCCESS';
-export const GET_LOGIN_ERROR = 'GET_LOGIN_ERROR';
+
+export const LOGIN_USER = 'LOGIN_USER'
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
+export const LOGIN_USER_ERROR = 'LOGIN_USER_ERROR'
+
+export const LOGOUT = 'LOGOUT'

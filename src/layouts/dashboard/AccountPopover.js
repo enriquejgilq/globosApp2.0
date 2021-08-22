@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
 import homeFill from '@iconify/icons-eva/home-fill';
@@ -11,22 +13,25 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
-
+import {logoutUser} from '../../Redux/actions/user'
+import {getUser} from '../../Redux/selectors/user'
+import { useSelector, useDispatch } from 'react-redux';
 // ----------------------------------------------------------------------
+import Swal from 'sweetalert2'
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'inicio',
     icon: homeFill,
     linkTo: '/'
   },
   {
-    label: 'Profile',
+    label: 'Perfil',
     icon: personFill,
     linkTo: '#'
   },
   {
-    label: 'Settings',
+    label: 'Configuración',
     icon: settings2Fill,
     linkTo: '#'
   }
@@ -36,6 +41,9 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -44,7 +52,13 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(false);
   };
+  const logout =()=> {
+   // dispatch(logoutUser());
+   Swal.fire('Any fool can use a computer')
 
+  }
+
+  
   return (
     <>
       <IconButton
@@ -78,10 +92,9 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {user.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
           </Typography>
         </Box>
 
@@ -110,8 +123,8 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
-            Logout
+          <Button fullWidth color="inherit" variant="outlined" onClick={logout}>
+            Salir
           </Button>
         </Box>
       </MenuPopover>

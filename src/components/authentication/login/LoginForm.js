@@ -1,12 +1,12 @@
 /* eslint-disable */
 import * as Yup from 'yup';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import {getLogin} from '../../../Redux/actions/user'
+import {postLogin} from '../../../Redux/actions/user'
 import { useSelector, useDispatch } from 'react-redux';
 
 // material
@@ -42,17 +42,18 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: (e) => {
-    e.preventDefault();
-    const data = {
-      email: email.current.value,
-      password: password.current.value
-    };
-    console.log(data);
+    //onSubmit: (e) => {
+    //e.preventDefault();
+    //const data = {
+    //  email: email.current.value,
+    //  password: password.current.value
+    //};
+    //console.log(data);
 
     //  navigate('/dashboard', { replace: true });
-    }
+    //}
   });
+ 
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ export default function LoginForm() {
       password: password.current.value
     };
     console.log(data);
-    dispatch(getLogin(data));
+    dispatch(postLogin(data));
   }
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
