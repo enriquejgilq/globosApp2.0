@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as Yup from 'yup';
 import { useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -8,11 +10,14 @@ import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import { useSelector, useDispatch } from 'react-redux';
+import {postUser} from '../../../Redux/actions/user'
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -41,14 +46,20 @@ export default function RegisterForm() {
   const lastName = useRef();
   const email = useRef();
   const password = useRef();
+  const phone = useRef();
+
+
   const onSubmit = (e) => {
     e.preventDefault();
     const data = {
       name: name.current.value,
-      lastName: lastName.current.value,
+      last_name: lastName.current.value,
       email: email.current.value,
-      password: password.current.value
+      password: password.current.value,
+      phone: phone.current.value,
     };
+    dispatch(postUser(data));
+
     console.log(data);
   };
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
@@ -76,7 +87,13 @@ export default function RegisterForm() {
               helperText={touched.lastName && errors.lastName}
             />
           </Stack>
-
+          <TextField
+            fullWidth
+            type="number"
+            label="Numero de telefono"
+            inputRef={phone}
+        
+          />
           <TextField
             fullWidth
             autoComplete="username"

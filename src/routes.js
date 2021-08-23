@@ -17,7 +17,7 @@ import Category from './pages/Category';
 
 const routes = (isLoggedIn) => [
     {
-      path: '/dashboard',
+      path: '/',
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: '/app', element: <DashboardApp /> },
@@ -26,15 +26,15 @@ const routes = (isLoggedIn) => [
         { path: '/blog', element: <Blog /> },
         { path: '/category', element: <Category /> },
         { path: '/404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/dashboard/404" /> },
-        { path: '/', element: <Navigate to="/dashboard/app" replace  /> },
+        { path: '*', element: <Navigate to="/404" /> },
+        { path: '/', element: <Navigate to="/app" replace  /> },
 
       
       ]
     },
     {
       path: '/',
-      element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard/app" />,
+      element: !isLoggedIn ? <LogoOnlyLayout /> : <Navigate to="/app" />,
 //  element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
@@ -44,8 +44,8 @@ const routes = (isLoggedIn) => [
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },
-
-    { path: '*', element: <Navigate to="/404" replace /> }
+  
+   { path: '*', element: <Navigate to="/404" replace /> }
   ];
 
   export default routes;

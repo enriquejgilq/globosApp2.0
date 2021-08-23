@@ -53,12 +53,11 @@ export default function AccountPopover() {
     setOpen(false);
   };
   const logout =()=> {
-   // dispatch(logoutUser());
-   Swal.fire('Any fool can use a computer')
+   dispatch(logoutUser());
+   //Swal.fire('Any fool can use a computer')
 
   }
 
-  
   return (
     <>
       <IconButton

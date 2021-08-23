@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
@@ -14,25 +16,25 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 const sidebarConfig = [
   {
     title: 'Inicio',
-    path: '/dashboard/app',
+    path: '/app',
     icon: getIcon(pieChart2Fill)
   },
   {
     title: 'Perfil de usuario',
-    path: '/dashboard/user',
+    path: '/user',
     icon: getIcon(peopleFill)
   },
   {
     title: 'Productos',
-    path: '/dashboard/products',
+    path: '/products',
     icon: getIcon(shoppingBagFill)
   },
   {
-    title: 'Otros',
-    path: '/dashboard/blog',
+    title: 'Categorias',
+    path: '/category',
     icon: getIcon(fileTextFill)
   },
-  {
+  /*{
     title: 'Iniciar sesión',
     path: '/login',
     icon: getIcon(lockFill)
@@ -46,7 +48,7 @@ const sidebarConfig = [
     title: 'Not found',
     path: '/404',
     icon: getIcon(alertTriangleFill)
-  }
+  }*/
 ];
 
 export default sidebarConfig;

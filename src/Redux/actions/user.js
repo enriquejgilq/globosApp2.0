@@ -19,3 +19,10 @@ export function logoutUser(){
          type: type.LOGOUT
     }
 }
+
+export function postUser(data){
+    return {
+         type: type.POST_USER,
+         payload: data
+    }
+}
