@@ -1,33 +1,35 @@
 /* eslint-disable */
 
 import * as Yup from 'yup';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
-// material
 import { Stack, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import { useSelector, useDispatch } from 'react-redux';
-import {postUser} from '../../../Redux/actions/user'
-
-// ----------------------------------------------------------------------
-
+import { postUser } from '../../../Redux/actions/user'
+import { getLoading, getError } from '../../../Redux/selectors/user'
+import ResponsiveDialog from '../../modalError'
 export default function RegisterForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const loader = useSelector(getLoading);
+  const error = useSelector(getError)
+  const [open, setOpen] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('First name required'),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+      .min(2, 'Faltan caracteres')
+      .max(50, 'Nombre excede el número máximo de caracteres')
+      .required('Nombre Obligatorio'),
+    lastName: Yup.string().min(2, 'Faltan caracteres').max(50, ' Apellido excede el número máximo de caracteres').required('Apellido Obligatorio'),
+    email: Yup.string().email('El correo electrónico debe ser una dirección de correo electrónico válida').required('correo electronico es requerido'),
+    password: Yup.string().required('se requiere contraseña')
   });
 
   const formik = useFormik({
@@ -59,11 +61,22 @@ export default function RegisterForm() {
       phone: phone.current.value,
     };
     dispatch(postUser(data));
+    setOpen(false)
 
-    console.log(data);
   };
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const { errors, touched, getFieldProps } = formik;
+  useEffect(() => {
+    if (error) {
+      setOpen(true)
+    }
+  }, [error])
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={onSubmit}>
@@ -92,7 +105,7 @@ export default function RegisterForm() {
             type="number"
             label="Numero de telefono"
             inputRef={phone}
-        
+
           />
           <TextField
             fullWidth
@@ -124,18 +137,18 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-
           <LoadingButton
             fullWidth
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
+            loading={loader}
           >
             Registrar
           </LoadingButton>
         </Stack>
       </Form>
+      <ResponsiveDialog open={open} error={error} title='Tiene uno o más errores' handleClose={handleClose} />
     </FormikProvider>
   );
 }

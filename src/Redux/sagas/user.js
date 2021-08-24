@@ -64,9 +64,19 @@ function* fetchRegister(action) {
     console.log(register)
     yield put({ type: POST_USER_SUCCESS, details: register });
   } catch (e) {
-    console.log(e.msg)
-
-    yield put({ type: POST_USER_ERROR, message: e.msg });
+    if (e.msg) {
+      yield put({ type: POST_USER_ERROR, message: e.msg });
+    }
+    if (e.errors) {
+      let errorAux = Object.values(e.errors)
+      var reformattedArray = errorAux.map(function (obj) {
+        var rObj = {};
+        rObj = obj.msg;
+        return rObj;
+      });
+      console.log(reformattedArray);
+      yield put({ type: POST_USER_ERROR, message: reformattedArray });
+    }
   }
 }
 function* rootUserSaga() {
