@@ -4,11 +4,17 @@ import * as Yup from 'yup';
 import { Container, Grid, Stack, Typography, TextField } from '@material-ui/core';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { LoadingButton } from '@material-ui/lab';
+import { useSelector, useDispatch } from 'react-redux';
+import {  postCategories } from '../../src/Redux/actions/categories'
+import {getLoading} from '../../src/Redux/selectors/categories'
 
 import Page from '../components/Page';
 
 function Category() {
+    const dispatch = useDispatch();
     const category = useRef()
+    const loader = useSelector(getLoading);
+
     const LoginSchema = Yup.object().shape({
         category: Yup.string().required('La categoria es requerida'),
     });
@@ -24,9 +30,11 @@ function Category() {
         const data = {
             category: category.current.value
         }
+        dispatch(postCategories(data));
+
         console.log(data)
     }
-    const { errors, touched, values, isSubmitting, s, getFieldProps } = formik;
+    const { errors, touched, values, isSubmitting, getFieldProps } = formik;
 
    
     return (
@@ -54,7 +62,7 @@ function Category() {
                                 size="large"
                                 type="submit"
                                 variant="contained"
-                                loading={isSubmitting}
+                                loading={loader}
                                 disabled={Boolean(touched.category && errors.category)}>
                                 Guardar Categoria
                             </LoadingButton>
