@@ -48,7 +48,6 @@ export default function LoginForm() {
     //  email: email.current.value,
     //  password: password.current.value
     //};
-    //console.log(data);
 
     //  navigate('/dashboard', { replace: true });
     //}
@@ -61,7 +60,6 @@ export default function LoginForm() {
       email: email.current.value,
       password: password.current.value
     };
-    console.log(data);
     dispatch(postLogin(data));
   }
 

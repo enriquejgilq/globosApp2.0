@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { call, put, takeEvery, select } from "redux-saga/effects";
-import axios from "axios";
-import Api from "../Api";
+import { call, put, takeEvery, select } from 'redux-saga/effects';
+import axios from 'axios';
+import Api from '../Api';
 import {
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
@@ -13,68 +13,62 @@ import {
 
 function postLogin(action) {
   return axios({
-    method: "POST",
+    method: 'POST',
     url: `${Api}/auth/login`,
     headers: {
-      'Content-type': "application/json",
-      Accept: "application/json",
-      "Access-Control-Allow-Origin": "*",
+      'Content-type': 'application/json',
+      Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
-    data: JSON.stringify(action),
+    data: JSON.stringify(action)
   })
     .then((response) => response.data)
-    .catch(error => {
-      throw error.response?.data
+    .catch((error) => {
+      throw error.response?.data;
     });
-};
-
+}
 
 function* fetchLogin(action) {
   try {
     const login = yield call(postLogin, action.payload);
-    console.log(login)
     yield put({ type: LOGIN_USER_SUCCESS, user: login });
   } catch (e) {
-    console.log(e.msg)
-
     yield put({ type: LOGIN_USER_ERROR, message: e.msg });
   }
 }
 
 function postRegisterUser(action) {
   return axios({
-    method: "POST",
+    method: 'POST',
     url: `${Api}/auth/new`,
     headers: {
-      'Content-type': "application/json",
-      Accept: "application/json",
-      "Access-Control-Allow-Origin": "*",
+      'Content-type': 'application/json',
+      Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
-    data: JSON.stringify(action),
+    data: JSON.stringify(action)
   })
     .then((response) => response.data)
-    .catch(error => {
-      throw error.response?.data
+    .catch((error) => {
+      throw error.response?.data;
     });
 }
 
 function* fetchRegister(action) {
   try {
     const register = yield call(postRegisterUser, action.payload);
-    console.log(register)
     yield put({ type: POST_USER_SUCCESS, details: register });
   } catch (e) {
     if (e.msg) {
       yield put({ type: POST_USER_ERROR, message: e.msg });
     }
     if (e.errors) {
-      let errorAux = Object.values(e.errors)
+      let errorAux = Object.values(e.errors);
       var reformattedArray = errorAux.map(function (obj) {
         var rObj = {};
         rObj = obj.msg;
         return rObj;
       });
-      console.log(reformattedArray);
       yield put({ type: POST_USER_ERROR, message: reformattedArray });
     }
   }
@@ -82,7 +76,6 @@ function* fetchRegister(action) {
 function* rootUserSaga() {
   yield takeEvery(LOGIN_USER, fetchLogin);
   yield takeEvery(POST_USER, fetchRegister);
-
 }
 
 export default rootUserSaga;

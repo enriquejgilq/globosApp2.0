@@ -2,5 +2,5 @@
 export const initialState = {
     loading: false,
     error: null,
-    details: [],
+    details: {},
 }

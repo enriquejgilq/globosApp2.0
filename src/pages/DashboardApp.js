@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // material
 import { Box, Grid, Container, Typography } from '@material-ui/core';
 // components
@@ -16,15 +18,20 @@ import {
   AppCurrentSubject,
   AppConversionRates
 } from '../components/_dashboard/app';
-
+import {logoutUser} from '../../src/Redux/actions/user'
+import {getUser} from '../../src/Redux/selectors/user'
+import { useSelector, useDispatch } from 'react-redux';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+
+  const user = useSelector(getUser);
+  
   return (
     <Page title="Dashboard | Minimal-UI">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, Welcome back</Typography>
+          <Typography variant="h4">Hola, {user.name} Bienvenido</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>

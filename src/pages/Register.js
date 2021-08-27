@@ -46,7 +46,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 export default function Register() {
   const dispatch = useDispatch();
   const user = useSelector(getUser)
-  console.log(user)
   return (
     <RootStyle title="Register | Minimal-UI">
       <AuthLayout>

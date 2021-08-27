@@ -10,7 +10,7 @@ export default function categories(state = initialState, action) {
                 ...state,
                 loading: true,
                 error: false,
-                details: []
+                details: {}
             }
         case type.GET_CATEGORIES_SUCCESS:
             return {
@@ -30,7 +30,7 @@ export default function categories(state = initialState, action) {
                 ...state,
                 loading: true,
                 error: false,
-                details: [],
+                details: {},
             }
         case type.POST_CATEGORIES_SUCCESS:
             return {
@@ -43,7 +43,9 @@ export default function categories(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                error: action.msg
+                error: action.error,
+                details: {},
+
             }
         default:
             return state;
