@@ -6,7 +6,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import {postLogin} from '../../../Redux/actions/user'
+import {postLogin, logoutUser} from '../../../Redux/actions/user'
 import { useSelector, useDispatch } from 'react-redux';
 
 // material
@@ -20,16 +20,27 @@ import {
   FormControlLabel
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import { getError } from 'src/Redux/selectors/user';
+import ResponsiveDialog from 'src/components/modalError';
+
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const error = useSelector(getError)
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
   const email = useRef();
   const password = useRef();
+ 
 
+  useEffect(() => {
+   if (error) {
+      setOpen(true)
+       }
+    }, [error])
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
@@ -68,6 +79,10 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
+  const handleClose = () => {
+    dispatch(logoutUser());
+    setOpen(false);
+};
 
   return (
     <FormikProvider value={formik}>
@@ -126,6 +141,8 @@ export default function LoginForm() {
           Iniciar sesión
         </LoadingButton>
       </Form>
+      <ResponsiveDialog open={open} error={error} title='Tiene uno o más errores' handleClose={handleClose} />
+
     </FormikProvider>
   );
 }

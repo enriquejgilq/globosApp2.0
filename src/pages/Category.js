@@ -28,7 +28,6 @@ function Category() {
         validationSchema: LoginSchema,
 
     });
-
     const onSubmit = (e) => {
         e.preventDefault()
         const data = {

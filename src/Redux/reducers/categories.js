@@ -10,20 +10,22 @@ export default function categories(state = initialState, action) {
                 ...state,
                 loading: true,
                 error: false,
-                details: {}
+                allCategories: []
             }
         case type.GET_CATEGORIES_SUCCESS:
             return {
                 ...state,
-                details: action.details,
+                allCategories: action.allCategories,
                 loading: false,
-                error: null
+                //error: null
             }
         case type.GET_CATEGORIES_ERROR:
             return {
                 ...state,
                 loading: false,
-                error: action.message
+                error: action.message,
+                allCategories:[]
+
             }
         case type.POST_CATEGORIES:
             return {

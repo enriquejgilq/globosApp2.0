@@ -31,14 +31,16 @@ export default function user(state = initialState, action) {
                 ...state,
                 loading: true,
                 error: false,
-                details: [],
+                user: {},
             }
         case type.POST_USER_SUCCESS:
             return {
                 ...state,
-                details: action.details,
+                user: action.user,
+                token : action.token,
                 loading: false,
-                error: null
+                error: null,
+                isAuth: true,
             }
         case type.POST_USER_ERROR:
             return {
@@ -48,7 +50,11 @@ export default function user(state = initialState, action) {
             }
         case type.LOGOUT:
             return {
-                initialState
+                ...state,
+                user: {},
+                loading: false,
+                error: null,
+                isAuth: false,
             }
         default:
             return state;

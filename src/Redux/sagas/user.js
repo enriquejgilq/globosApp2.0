@@ -57,7 +57,7 @@ function postRegisterUser(action) {
 function* fetchRegister(action) {
   try {
     const register = yield call(postRegisterUser, action.payload);
-    yield put({ type: POST_USER_SUCCESS, details: register });
+    yield put({ type: POST_USER_SUCCESS, user: register });
   } catch (e) {
     if (e.msg) {
       yield put({ type: POST_USER_ERROR, message: e.msg });

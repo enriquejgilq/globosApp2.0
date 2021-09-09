@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Stack, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import { useSelector, useDispatch } from 'react-redux';
-import { postUser } from '../../../Redux/actions/user'
+import { postUser, logoutUser } from '../../../Redux/actions/user'
 import { getLoading, getError } from '../../../Redux/selectors/user'
 import ResponsiveDialog from '../../modalError'
 export default function RegisterForm() {
@@ -69,6 +69,7 @@ export default function RegisterForm() {
 	};
 
 	const handleClose = () => {
+		dispatch(logoutUser());
 		setOpen(false);
 	};
 	const { errors, touched, getFieldProps } = formik;
